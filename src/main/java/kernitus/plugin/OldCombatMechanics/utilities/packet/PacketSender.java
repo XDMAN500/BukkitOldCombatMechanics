@@ -1,3 +1,8 @@
+/*
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
 package kernitus.plugin.OldCombatMechanics.utilities.packet;
 
 import kernitus.plugin.OldCombatMechanics.utilities.reflection.Reflector;
@@ -23,7 +28,9 @@ public class PacketSender {
         Class<?> entityPlayer = Reflector.getClass(ClassType.NMS, "server.level.EntityPlayer");
 
         GET_HANDLE = Reflector.getMethod(craftPlayer, "getHandle");
-        SEND_PACKET = Reflector.getMethod(playerConnection, "sendPacket");
+        SEND_PACKET = Reflector.versionIsNewerOrEqualAs(1, 18, 0)
+                ? Reflector.getMethod(playerConnection, "a", "Packet")
+                : Reflector.getMethod(playerConnection, "sendPacket");
         PLAYER_CONNECTION_FIELD = Reflector.getFieldByType(entityPlayer, "PlayerConnection");
     }
 

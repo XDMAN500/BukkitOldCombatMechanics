@@ -1,3 +1,8 @@
+/*
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
 package kernitus.plugin.OldCombatMechanics.module;
 
 import kernitus.plugin.OldCombatMechanics.OCMMain;
@@ -39,7 +44,7 @@ public class ModuleDisableEnderpearlCooldown extends Module {
     public void reload() {
         cooldown = module().getInt("cooldown");
         if (cooldown > 0) {
-            if (lastLaunched == null) lastLaunched = new HashMap<>();
+            if (lastLaunched == null) lastLaunched = new WeakHashMap<>();
         } else lastLaunched = null;
 
         message = module().getBoolean("showMessage") ? module().getString("message") : null;

@@ -1,5 +1,12 @@
+/*
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
 package kernitus.plugin.OldCombatMechanics;
 
+import kernitus.plugin.OldCombatMechanics.commands.OCMCommandCompleter;
+import kernitus.plugin.OldCombatMechanics.commands.OCMCommandHandler;
 import kernitus.plugin.OldCombatMechanics.hooks.PlaceholderAPIHook;
 import kernitus.plugin.OldCombatMechanics.hooks.api.Hook;
 import kernitus.plugin.OldCombatMechanics.module.Module;
@@ -26,11 +33,15 @@ import java.util.stream.Collectors;
 public class OCMMain extends JavaPlugin {
 
     private static OCMMain INSTANCE;
-    private Logger logger = getLogger();
-    private OCMConfigHandler CH = new OCMConfigHandler(this);
-    private List<Runnable> disableListeners = new ArrayList<>();
-    private List<Runnable> enableListeners = new ArrayList<>();
-    private List<Hook> hooks = new ArrayList<>();
+    private final Logger logger = getLogger();
+    private final OCMConfigHandler CH = new OCMConfigHandler(this);
+    private final List<Runnable> disableListeners = new ArrayList<>();
+    private final List<Runnable> enableListeners = new ArrayList<>();
+    private final List<Hook> hooks = new ArrayList<>();
+
+    public OCMMain() {
+        super();
+    }
 
     public static OCMMain getInstance() {
         return INSTANCE;
@@ -63,6 +74,8 @@ public class OCMMain extends JavaPlugin {
 
         // Set up the command handler
         getCommand("OldCombatMechanics").setExecutor(new OCMCommandHandler(this, this.getFile()));
+        // Set up command tab completer
+        getCommand("OldCombatMechanics").setTabCompleter(new OCMCommandCompleter());
 
         // Initialise the Messenger utility
         Messenger.initialise(this);
@@ -70,10 +83,10 @@ public class OCMMain extends JavaPlugin {
         // Initialise Config utility
         Config.initialise(this);
 
-        //BStats Metrics
+        // BStats Metrics
         Metrics metrics = new Metrics(this, 53);
 
-        /*Custom bar charts currently disabled on bStats
+        // Simple bar chart
         metrics.addCustomChart(
                 new Metrics.SimpleBarChart(
                         "enabled_modules",
@@ -81,13 +94,14 @@ public class OCMMain extends JavaPlugin {
                                 .filter(Module::isEnabled)
                                 .collect(Collectors.toMap(Module::toString, module -> 1))
                 )
-        );*/
+        );
 
-        // Custom Advanced Pie Chart:
-        metrics.addCustomChart(new Metrics.AdvancedPie("most_used_modules",
+        // Advanced Pie Chart
+        metrics.addCustomChart(new Metrics.AdvancedPie("enabled_modules_advanced_pie",
                 () -> ModuleLoader.getModules().stream()
-                        .filter(Module::isEnabled)
-                        .collect(Collectors.toMap(Module::toString, module -> 1))
+                        .collect(Collectors.toMap(
+                                module -> module.toString() + (module.isEnabled() ? " enabled" : " disabled"),
+                                module -> 1))
         ));
 
         enableListeners.forEach(Runnable::run);
@@ -117,7 +131,6 @@ public class OCMMain extends JavaPlugin {
 
     @Override
     public void onDisable() {
-
         PluginDescriptionFile pdfFile = this.getDescription();
 
         disableListeners.forEach(Runnable::run);

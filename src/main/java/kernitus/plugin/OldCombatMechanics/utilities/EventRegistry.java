@@ -1,3 +1,8 @@
+/*
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
 package kernitus.plugin.OldCombatMechanics.utilities;
 
 import org.bukkit.event.HandlerList;
@@ -9,8 +14,6 @@ import java.util.List;
 
 /**
  * A simple utility class to ensure that a Listener is not registered more than once.
- *
- * @author Rayzr522
  */
 public class EventRegistry {
     private final Plugin plugin;

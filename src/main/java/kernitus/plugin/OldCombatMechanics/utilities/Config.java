@@ -1,8 +1,12 @@
+/*
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
 package kernitus.plugin.OldCombatMechanics.utilities;
 
 import kernitus.plugin.OldCombatMechanics.ModuleLoader;
 import kernitus.plugin.OldCombatMechanics.OCMMain;
-import kernitus.plugin.OldCombatMechanics.module.Module;
 import kernitus.plugin.OldCombatMechanics.utilities.damage.EntityDamageByEntityListener;
 import kernitus.plugin.OldCombatMechanics.utilities.damage.WeaponDamages;
 import org.bukkit.Material;
@@ -15,10 +19,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
-
-/**
- * Created by Rayzr522 on 6/14/16.
- */
 
 public class Config {
 
@@ -70,7 +70,8 @@ public class Config {
         reloadInteractiveBlocks();
 
         //Set EntityDamagedByEntityListener to enabled if either of these modules is enabled
-        EntityDamageByEntityListener.getINSTANCE().setEnabled(
+        if(EntityDamageByEntityListener.getINSTANCE() != null)
+            EntityDamageByEntityListener.getINSTANCE().setEnabled(
                 moduleEnabled("old-tool-damage") || moduleEnabled("old-potion-effects"));
 
         // Dynamically registers / unregisters all event listeners for optimal performance!

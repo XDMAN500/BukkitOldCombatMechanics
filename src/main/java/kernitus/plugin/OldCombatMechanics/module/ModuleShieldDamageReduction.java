@@ -1,3 +1,8 @@
+/*
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
 package kernitus.plugin.OldCombatMechanics.module;
 
 import kernitus.plugin.OldCombatMechanics.OCMMain;
@@ -21,7 +26,7 @@ import java.util.stream.Collectors;
 public class ModuleShieldDamageReduction extends Module {
 
     private int genericDamageReductionAmount, genericDamageReductionPercentage, projectileDamageReductionAmount, projectileDamageReductionPercentage;
-    private final Map<UUID, List<ItemStack>> fullyBlocked = new HashMap<>();
+    private final Map<UUID, List<ItemStack>> fullyBlocked = new WeakHashMap<>();
 
     public ModuleShieldDamageReduction(OCMMain plugin) {
         super(plugin, "shield-damage-reduction");
@@ -90,7 +95,7 @@ public class ModuleShieldDamageReduction extends Module {
                     fullyBlocked.remove(uuid);
                     debug("Removed from fully blocked set!", player);
                 }
-            }.runTaskLaterAsynchronously(plugin, 1);
+            }.runTaskLater(plugin, 1);
         }
     }
 

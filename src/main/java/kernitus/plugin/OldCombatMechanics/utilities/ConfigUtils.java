@@ -1,3 +1,8 @@
+/*
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
 package kernitus.plugin.OldCombatMechanics.utilities;
 
 import kernitus.plugin.OldCombatMechanics.utilities.potions.GenericPotionDurations;
@@ -13,7 +18,6 @@ import java.util.stream.Collectors;
 /**
  * Various utilities for making it easier to work with {@link org.bukkit.configuration.Configuration Configurations}.
  *
- * @author Rayzr522
  * @see org.bukkit.configuration.file.YamlConfiguration
  * @see org.bukkit.configuration.ConfigurationSection
  */

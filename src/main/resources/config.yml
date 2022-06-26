@@ -1,18 +1,14 @@
-############# OldCombatMechanics Plugin by kernitus and Rayzr522 #############
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+  ############# OldCombatMechanics Plugin by kernitus and Rayzr522 #############
 #                                                                           #
 # Bukkit Page: http://dev.bukkit.org/bukkit-plugins/oldcombatmechanics/     #
 # Spigot Page: https://www.spigotmc.org/resources/oldcombatmechanics.19510/ #
 # GitHub Page: https://github.com/kernitus/BukkitOldCombatMechanics/        #
 #                                                                           #
 #############################################################################
-
-# This is to toggle the update checker
-update-checker:
-  enabled: true
-
-# Enable the oldcombatmechanics.toggle permission
-# for players to individually /ocm toggle their cooldown
-enableIndividualToggle: false
 
 # List of interactive blocks that right clicking on will be ignored
 # This is for modules such as sword blocking and disable-elytra
@@ -31,6 +27,9 @@ disable-attack-cooldown:
   worlds: []
   # What to set the attack speed to. Default for 1.9 is 4, at least 16 is needed for no cooldown.
   generic-attack-speed: 24
+  message-enabled: "&aAttack cooldown enabled for %player%"
+  message-disabled: "&cAttack cooldown disabled for %player%"
+  message-usage: "Usage: &7/ocm toggle [player] [on/off]"
 
 disable-player-collisions:
   # This is to disable player collisions
@@ -162,6 +161,8 @@ sword-blocking:
   noBlockingItems: []
   # Whether the above list should act as a blacklist (i.e. only items listed stop the blocking mechanic)
   blacklist: true
+  # Whether to require players to have oldcombatmechanics.swordblock permission to block with a sword
+  use-permission: false
 
 shield-damage-reduction:
   # This module allows changing the damage reduction behaviour of shields
@@ -212,7 +213,7 @@ old-golden-apples:
   old-potion-effects: true
   # Potion effects golden apples should apply
   # Duration is in ticks (20 ticks = 1 second)
-  # Amplifier is potion level -1, so Regeneration IV would be amplifier 3
+  # Amplifier is the potion level - 1, so Regeneration IV would be amplifier 3
   gapple-effects:
     regeneration:
       duration: 100
@@ -553,9 +554,17 @@ support:
 #### SPECIAL SETTINGS BELOW ####
 ################################
 
+# This is to toggle the update checker
+update-checker:
+  enabled: true
+
+# This enables command argument completion when pressing tab
+command-completer:
+  enabled: true
+
 # This enables debug messages, only enable when troubleshooting
 debug:
   enabled: false
 
 # DO NOT CHANGE THIS NUMBER AS IT WILL RESET YOUR CONFIG
-config-version: 53
+config-version: 54

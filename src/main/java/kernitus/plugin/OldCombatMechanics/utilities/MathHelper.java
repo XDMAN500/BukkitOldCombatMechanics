@@ -1,9 +1,12 @@
+/*
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
 package kernitus.plugin.OldCombatMechanics.utilities;
 
 /**
  * For all the math utilities that I needed which (for some reason) aren't in the Math class.
- *
- * @author Rayzr
  */
 public class MathHelper {
 

@@ -1,3 +1,8 @@
+/*
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
 package kernitus.plugin.OldCombatMechanics.module;
 
 import kernitus.plugin.OldCombatMechanics.OCMMain;
@@ -25,7 +30,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionType;
 
 import java.util.EnumSet;
-import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 import static java.util.Objects.requireNonNull;
@@ -44,7 +49,7 @@ public class ModuleOldPotionEffects extends Module {
             PotionType.AWKWARD, PotionType.MUNDANE, PotionType.THICK, PotionType.UNCRAFTABLE, PotionType.WATER
     );
 
-    private HashMap<PotionType, PotionDurations> durations;
+    private Map<PotionType, PotionDurations> durations;
 
     public ModuleOldPotionEffects(OCMMain plugin) {
         super(plugin, "old-potion-effects");
@@ -167,15 +172,15 @@ public class ModuleOldPotionEffects extends Module {
 
     private void setNewPotionEffect(LivingEntity livingEntity, PotionEffect potionEffect) {
         if (!livingEntity.hasPotionEffect(potionEffect.getType())) {
-            livingEntity.addPotionEffect(potionEffect, false);
+            livingEntity.addPotionEffect(potionEffect);
             return;
         }
 
         final PotionEffect activeEffect = PotionEffects.getOrNull(livingEntity, potionEffect.getType());
         final int remainingDuration = activeEffect.getDuration();
 
-        // If new effect it type II while old wasn't, or
-        // new would last longer than remaining time but isn't a level downgrade (eg II -> I), set it
+        // If new effect is type II while old wasn't, or new would last longer than
+        // remaining time but isn't a level downgrade (eg II -> I), set it
         final int newAmplifier = potionEffect.getAmplifier();
         final int activeAmplifier = activeEffect.getAmplifier();
 

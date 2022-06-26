@@ -1,3 +1,9 @@
+<!--
+     This Source Code Form is subject to the terms of the Mozilla Public
+     License, v. 2.0. If a copy of the MPL was not distributed with this
+     file, You can obtain one at https://mozilla.org/MPL/2.0/.
+-->
+
 <p align="center">
 <img src="res/ocm-icon.png" width=320>
 <img src="res/ocm-banner.png" width=1000>
@@ -46,13 +52,14 @@ If you are interested in contributing, please [check this page first](.github/CO
 - Make fishing rods go as far as they did in 1.8
 - Replicate 1.8 entity knockback
 - Replicate and configure 1.8 critical hits
+- Per-user pvp mode toggle
 
 ## Installation
 To install OldCombatMechanics, please download the latest version from the [releases page](https://github.com/kernitus/BukkitOldCombatMechanics/releases) (or from [Bukkit](http://dev.bukkit.org/bukkit-plugins/oldcombatmechanics/) or [Spigot](https://www.spigotmc.org/resources/oldcombatmechanics.19510/)). Simply drop the JAR file in your plugins folder and restart your server.
 
 <hr/>
 
-<a href="https://www.spigotmc.org/resources/oldcombatmechanics.19510/">
+<a href="https://www.spigotmc.org/resources/19510/">
     <img src="res/spigot.png" alt="Spigot" height="100">
 </a>
 <a href="https://dev.bukkit.org/projects/oldcombatmechanics">

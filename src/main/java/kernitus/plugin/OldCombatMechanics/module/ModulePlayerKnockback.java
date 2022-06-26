@@ -1,7 +1,13 @@
+/*
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
 package kernitus.plugin.OldCombatMechanics.module;
 
 import kernitus.plugin.OldCombatMechanics.OCMMain;
 import kernitus.plugin.OldCombatMechanics.utilities.reflection.Reflector;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
@@ -20,8 +26,9 @@ import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
-import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
+import java.util.WeakHashMap;
 
 /**
  * Reverts knockback formula to 1.8.
@@ -36,7 +43,7 @@ public class ModulePlayerKnockback extends Module {
     private double knockbackExtraVertical;
     private boolean netheriteKnockbackResistance;
 
-    private final HashMap<UUID, Vector> playerKnockbackHashMap = new HashMap<>();
+    private final Map<UUID, Vector> playerKnockbackHashMap = new WeakHashMap<>();
 
     public ModulePlayerKnockback(OCMMain plugin) {
         super(plugin, "old-player-knockback");
@@ -140,7 +147,12 @@ public class ModulePlayerKnockback extends Module {
             playerVelocity.multiply(new Vector(resistance, 1, resistance));
         }
 
+        final UUID victimId = victim.getUniqueId();
+
         // Knockback is sent immediately in 1.8+, there is no reason to send packets manually
-        playerKnockbackHashMap.put(victim.getUniqueId(), playerVelocity);
+        playerKnockbackHashMap.put(victimId, playerVelocity);
+
+        // Sometimes PlayerVelocityEvent doesn't fire, remove data to not affect later events if that happens
+        Bukkit.getScheduler().runTaskLater(plugin, () -> playerKnockbackHashMap.remove(victimId), 1);
     }
 }

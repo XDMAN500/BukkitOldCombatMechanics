@@ -1,3 +1,8 @@
+/*
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
 package kernitus.plugin.OldCombatMechanics.module;
 
 import kernitus.plugin.OldCombatMechanics.OCMMain;
@@ -17,7 +22,7 @@ import java.util.stream.Collectors;
 
 public class ModuleOldArmourDurability extends Module {
 
-    private final Map<UUID, List<ItemStack>> explosionDamaged = new HashMap<>();
+    private final Map<UUID, List<ItemStack>> explosionDamaged = new WeakHashMap<>();
 
     public ModuleOldArmourDurability(OCMMain plugin) {
         super(plugin, "old-armour-durability");
@@ -53,7 +58,7 @@ public class ModuleOldArmourDurability extends Module {
 
         // 60 + (40 / (level + 1) ) % chance that durability is reduced (for each point of durability)
         final int damageChance = 60 + (40 / (item.getEnchantmentLevel(Enchantment.DURABILITY) + 1));
-        Random random = new Random();
+        final Random random = new Random();
         final int randomInt = random.nextInt(100); // between 0 (inclusive) and 100 (exclusive)
         if(randomInt >= damageChance)
             reduction = 0;
@@ -84,7 +89,7 @@ public class ModuleOldArmourDurability extends Module {
         };
 
         // This delay seems enough for the durability events to fire
-        runnable.runTaskLaterAsynchronously(plugin, 1);
+        runnable.runTaskLater(plugin, 1);
         debug("Detected explosion!", player);
     }
 }

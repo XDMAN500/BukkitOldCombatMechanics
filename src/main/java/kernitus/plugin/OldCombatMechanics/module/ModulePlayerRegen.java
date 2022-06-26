@@ -1,3 +1,8 @@
+/*
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
 package kernitus.plugin.OldCombatMechanics.module;
 
 import kernitus.plugin.OldCombatMechanics.OCMMain;
@@ -12,9 +17,9 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.WeakHashMap;
 
 /**
  * Establishes custom health regeneration rules.
@@ -22,7 +27,7 @@ import java.util.UUID;
  */
 public class ModulePlayerRegen extends Module {
 
-    private final Map<UUID, Long> healTimes = new HashMap<>();
+    private final Map<UUID, Long> healTimes = new WeakHashMap<>();
     private boolean spartanInstalled;
 
     public ModulePlayerRegen(OCMMain plugin) {

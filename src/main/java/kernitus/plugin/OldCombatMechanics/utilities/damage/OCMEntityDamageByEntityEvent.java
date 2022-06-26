@@ -1,3 +1,8 @@
+/*
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
 package kernitus.plugin.OldCombatMechanics.utilities.damage;
 
 import kernitus.plugin.OldCombatMechanics.utilities.potions.PotionEffects;
@@ -55,6 +60,8 @@ public class OCMEntityDamageByEntityEvent extends Event implements Cancellable {
     // Whether this damage is reduced damage from a higher-damage attack occurring during a noDamageTicks invulnerability period
     private boolean wasInvulnerabilityOverdamage = false;
 
+    // Here we reverse-engineer all the various damages caused by removing them one at a time, backwards from what NMS code does.
+    // This is so the modules can listen to this event and make their modifications, then EntityDamageByEntityListener sets the new values back.
     public OCMEntityDamageByEntityEvent(Entity damager, Entity damagee, DamageCause cause, double rawDamage) {
         this.damager = damager;
         this.damagee = damagee;
@@ -85,15 +92,15 @@ public class OCMEntityDamageByEntityEvent extends Event implements Cancellable {
         */
         if (damagee instanceof LivingEntity) {
             LivingEntity livingDamagee = (LivingEntity) damagee;
-            if ((float) livingDamagee.getNoDamageTicks() > (float) livingDamagee.getMaximumNoDamageTicks() / 2.0F){
+            if ((float) livingDamagee.getNoDamageTicks() > (float) livingDamagee.getMaximumNoDamageTicks() / 2.0F) {
                 // NMS code also checks if current damage is higher that previous damage. However, here the event
-                // directly has the difference between the two as the raw damage, and the event does not fire at all
+                // already has the difference between the two as the raw damage, and the event does not fire at all
                 // if this precondition is not met.
                 wasInvulnerabilityOverdamage = true;
                 debug(le, "Overdamaged!");
             } else {
-                debug(le,livingDamagee.getNoDamageTicks() + "/" + livingDamagee.getMaximumNoDamageTicks() / 2.0F +
-                        " last: " + livingDamagee.getLastDamage());
+                debug(le, "Invulnerability: " + livingDamagee.getNoDamageTicks() + "/" +
+                        livingDamagee.getMaximumNoDamageTicks() / 2.0F + " last: " + livingDamagee.getLastDamage());
             }
         }
 

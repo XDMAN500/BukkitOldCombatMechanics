@@ -1,3 +1,8 @@
+/*
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
 package kernitus.plugin.OldCombatMechanics.module;
 
 import kernitus.plugin.OldCombatMechanics.OCMMain;
@@ -53,7 +58,7 @@ public class ModuleGoldenApple extends Module {
                 module().getLong("cooldown.enchanted"),
                 module().getBoolean("cooldown.is-shared")
         );
-        lastEaten = new HashMap<>();
+        lastEaten = new WeakHashMap<>();
 
         enchantedGoldenAppleEffects = getPotionEffects("napple");
         goldenAppleEffects = getPotionEffects("gapple");
@@ -101,21 +106,17 @@ public class ModuleGoldenApple extends Module {
         }
     }
 
-    @EventHandler(priority = EventPriority.HIGH)
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onItemConsume(PlayerItemConsumeEvent e) {
-        if (e.isCancelled()) return; // Don't do anything if another plugin cancelled the event
-
         final Player p = e.getPlayer();
 
-        if (!isEnabled(p.getWorld()) || !isSettingEnabled("old-potion-effects")) return;
+        if (!isEnabled(p.getWorld())) return;
 
         ItemStack item = e.getItem();
         final Material consumedMaterial = item.getType();
 
         if (consumedMaterial != Material.GOLDEN_APPLE &&
                 !ENCHANTED_GOLDEN_APPLE.isSame(e.getItem())) return;
-
-        e.setCancelled(true);
 
         final UUID uuid = p.getUniqueId();
 
@@ -149,15 +150,19 @@ public class ModuleGoldenApple extends Module {
             if (message != null && !message.isEmpty())
                 Messenger.sendNormalMessage(p, message.replaceAll("%seconds%", String.valueOf(seconds)));
 
+            e.setCancelled(true);
             return;
         }
 
         lastEaten.get(p.getUniqueId()).setForItem(item);
 
+        if (!isSettingEnabled("old-potion-effects")) return;
+        e.setCancelled(true);
+
         final ItemStack originalItem = e.getItem();
         final PlayerInventory inv = p.getInventory();
 
-        //Hunger level
+        // Hunger level
         int foodLevel = Math.min(p.getFoodLevel() + 4, 20);
         p.setFoodLevel(foodLevel);
 

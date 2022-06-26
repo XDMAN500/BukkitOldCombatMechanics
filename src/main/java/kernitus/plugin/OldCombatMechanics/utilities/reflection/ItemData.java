@@ -1,12 +1,14 @@
+/*
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
 package kernitus.plugin.OldCombatMechanics.utilities.reflection;
 
 import com.comphenix.example.NbtFactory;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-/**
- * Created by Rayzr522 on 7/11/16.
- */
 public class ItemData {
 
     public static void mark(ItemStack is, String marker){

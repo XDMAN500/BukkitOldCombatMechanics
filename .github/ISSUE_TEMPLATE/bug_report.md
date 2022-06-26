@@ -1,3 +1,9 @@
+<!--
+     This Source Code Form is subject to the terms of the Mozilla Public
+     License, v. 2.0. If a copy of the MPL was not distributed with this
+     file, You can obtain one at https://mozilla.org/MPL/2.0/.
+-->
+
 ---
 name: Bug report
 about: Create a bug report for the plugin
@@ -23,8 +29,10 @@ assignees: ''
 <!-- Please do NOT use hastebin, they seem to disappeared way too fast! -->
 * Server Log File: 
 
-<!-- OldCombatMechanics config.yml, please upload this to e.g. pastebin and link the file here -->
+<!-- OldCombatMechanics config.yml, please upload this to e.g. pastebin and link the file here or use code tags-->
 * OldCombatMechanics config file: 
+
+<!-- If the issue is damage related, please enable debug mode in the config and provide screenshots of the output-->
 
 ## Problem Description
 <!-- A clear and concise description of what the bug is. -->

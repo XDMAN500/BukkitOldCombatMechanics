@@ -1,7 +1,12 @@
+/*
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
 package kernitus.plugin.OldCombatMechanics.module;
 
 import kernitus.plugin.OldCombatMechanics.OCMMain;
-import kernitus.plugin.OldCombatMechanics.utilities.Config;
+import kernitus.plugin.OldCombatMechanics.utilities.Messenger;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
@@ -70,7 +75,7 @@ public class ModuleAttackCooldown extends Module {
      * @param player      the player to set it for
      * @param attackSpeed the attack speed to set it to
      */
-    private void setAttackSpeed(Player player, double attackSpeed){
+    public static void setAttackSpeed(Player player, double attackSpeed){
         AttributeInstance attribute = player.getAttribute(Attribute.GENERIC_ATTACK_SPEED);
         if(attribute == null){
             return;
@@ -79,11 +84,15 @@ public class ModuleAttackCooldown extends Module {
         double baseValue = attribute.getBaseValue();
 
         if(baseValue != attackSpeed){
-            debug(String.format("Setting attack speed for player %s to %.2f (was: %.2f)", player.getName(), attackSpeed, baseValue));
+            Messenger.debug(String.format("Setting attack speed for player %s to %.2f (was: %.2f)", player.getName(), attackSpeed, baseValue));
 
             attribute.setBaseValue(attackSpeed);
             player.saveData();
         }
+    }
+
+    public static void setAttackSpeed(Player player, PVPMode mode){
+        setAttackSpeed(player,mode.getBaseAttackSpeed());
     }
 
     /**
@@ -94,8 +103,8 @@ public class ModuleAttackCooldown extends Module {
         OLD_PVP("1.8", 16),
         NEW_PVP("1.9+", 4);
 
-        private String name;
-        private double baseAttackSpeed;
+        private final String name;
+        private final double baseAttackSpeed;
 
         PVPMode(String name, double baseAttackSpeed){
             this.name = name;

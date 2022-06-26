@@ -1,3 +1,8 @@
+/*
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
 package kernitus.plugin.OldCombatMechanics;
 
 import kernitus.plugin.OldCombatMechanics.module.Module;
@@ -7,9 +12,6 @@ import kernitus.plugin.OldCombatMechanics.utilities.Messenger;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Rayzr522 on 6/27/16.
- */
 public class ModuleLoader {
 
     private static EventRegistry eventRegistry;
