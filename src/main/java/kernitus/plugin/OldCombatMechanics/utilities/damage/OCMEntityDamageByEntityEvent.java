@@ -138,7 +138,7 @@ public class OCMEntityDamageByEntityEvent extends Event implements Cancellable {
 
         strengthLevel = ++amplifier;
 
-        strengthModifier = strengthLevel * 3;
+        strengthModifier = strengthLevel * (le.getType() == EntityType.PLAYER  ? 3.0 : 1.5);
 
         debug(le, "Strength Modifier: " + strengthModifier);
 

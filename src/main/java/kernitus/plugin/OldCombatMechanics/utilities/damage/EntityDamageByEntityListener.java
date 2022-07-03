@@ -71,9 +71,10 @@ public class EntityDamageByEntityListener extends Module {
         //Strength potion
         debug("Strength level: " + e.getStrengthLevel(), damager);
         double strengthModifier = e.getStrengthModifier() * e.getStrengthLevel();
-        if (!e.isStrengthModifierMultiplier()) newDamage += strengthModifier;
-        else if (e.isStrengthModifierAddend()) newDamage *= ++strengthModifier;
-        else newDamage *= strengthModifier;
+
+
+        if (e.isStrengthModifierMultiplier()) newDamage *= (1.0 + strengthModifier);
+        else if (e.isStrengthModifierAddend()) newDamage += strengthModifier;
 
         debug("Strength: " + strengthModifier, damager);
 
