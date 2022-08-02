@@ -44,6 +44,7 @@ public class OCMEntityDamageByEntityEvent extends Event implements Cancellable {
     private ItemStack weapon;
     private int sharpnessLevel;
     private int strengthLevel;
+    private int weaknessLevel;
 
     private double baseDamage = 0, mobEnchantmentsDamage = 0, sharpnessDamage = 0, criticalMultiplier = 1, criticalAddend = 0;
     private double strengthModifier = 0, weaknessModifier = 0;
@@ -137,6 +138,9 @@ public class OCMEntityDamageByEntityEvent extends Event implements Cancellable {
                 .orElse(-1);
 
         strengthLevel = ++amplifier;
+        weaknessLevel = PotionEffects.get(le, PotionEffectType.WEAKNESS)
+                               .map(PotionEffect::getAmplifier)
+                               .orElse(-1) + 1;
 
         strengthModifier = strengthLevel * (le.getType() == EntityType.PLAYER  ? 3.0 : 1.5);
 
@@ -172,6 +176,10 @@ public class OCMEntityDamageByEntityEvent extends Event implements Cancellable {
 
     public int getSharpnessLevel() {
         return sharpnessLevel;
+    }
+
+    public int getWeaknessLevel() {
+        return weaknessLevel;
     }
 
     public double getStrengthModifier() {

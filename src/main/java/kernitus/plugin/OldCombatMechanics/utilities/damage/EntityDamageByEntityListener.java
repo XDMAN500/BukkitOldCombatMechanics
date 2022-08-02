@@ -61,13 +61,6 @@ public class EntityDamageByEntityListener extends Module {
 
         debug("Base: " + e.getBaseDamage(), damager);
 
-        //Weakness potion
-        double weaknessModifier = e.getWeaknessModifier() * e.getWeaknessModifier();
-        if (e.isWeaknessModifierMultiplier()) newDamage *= weaknessModifier;
-        else newDamage += weaknessModifier;
-
-        debug("Weak: " + e.getWeaknessModifier(), damager);
-
         //Strength potion
         debug("Strength level: " + e.getStrengthLevel(), damager);
         double strengthModifier = e.getStrengthModifier() * e.getStrengthLevel();
@@ -77,6 +70,14 @@ public class EntityDamageByEntityListener extends Module {
         else if (e.isStrengthModifierAddend()) newDamage += strengthModifier;
 
         debug("Strength: " + strengthModifier, damager);
+
+        //Weakness potion
+        double weaknessModifier = e.getWeaknessModifier() * e.getWeaknessLevel();
+        if (e.isWeaknessModifierMultiplier()) newDamage *= weaknessModifier;
+        else newDamage = weaknessModifier;
+
+        debug("Weak: " + e.getWeaknessModifier(), damager);
+
 
         // Critical hit: 1.9 is *1.5, 1.8 is *rand(0%,50%) + 1
         // Bukkit 1.8_r3 code:     i += this.random.nextInt(i / 2 + 2);
