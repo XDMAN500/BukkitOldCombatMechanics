@@ -62,7 +62,7 @@ public class EntityDamageByEntityListener extends Module {
         debug("Base: " + e.getBaseDamage(), damager);
 
         //Weakness potion
-        double weaknessModifier = e.getWeaknessModifier();
+        double weaknessModifier = e.getWeaknessModifier() * e.getWeaknessModifier();
         if (e.isWeaknessModifierMultiplier()) newDamage *= weaknessModifier;
         else newDamage += weaknessModifier;
 
