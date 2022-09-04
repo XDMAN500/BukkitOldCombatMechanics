@@ -44,6 +44,7 @@ public class OCMEntityDamageByEntityEvent extends Event implements Cancellable {
     private ItemStack weapon;
     private int sharpnessLevel;
     private int strengthLevel;
+    private int weaknessLevel;
 
     private double baseDamage = 0, mobEnchantmentsDamage = 0, sharpnessDamage = 0, criticalMultiplier = 1, criticalAddend = 0;
     private double strengthModifier = 0, weaknessModifier = 0;
@@ -132,21 +133,27 @@ public class OCMEntityDamageByEntityEvent extends Event implements Cancellable {
         }
 
         //amplifier 0 = Strength I    amplifier 1 = Strength II
-        int amplifier = PotionEffects.get(le, PotionEffectType.INCREASE_DAMAGE)
+        int strengthAmplifier = PotionEffects.get(le, PotionEffectType.INCREASE_DAMAGE)
                 .map(PotionEffect::getAmplifier)
                 .orElse(-1);
 
-        strengthLevel = ++amplifier;
+        int weaknessAmplifier = PotionEffects.get(le, PotionEffectType.WEAKNESS)
+                                    .map(PotionEffect::getAmplifier)
+                                    .orElse(-1);
 
-        strengthModifier = strengthLevel * (le.getType() == EntityType.PLAYER  ? 3.0 : 1.5);
+        strengthLevel = ++strengthAmplifier;
+
+        weaknessLevel = ++weaknessAmplifier;
+
+        strengthModifier = (le.getType() == EntityType.PLAYER  ? 3.0 : 1.5);
 
         debug(le, "Strength Modifier: " + strengthModifier);
 
-        if (le.hasPotionEffect(PotionEffectType.WEAKNESS)) weaknessModifier = -4;
+        weaknessModifier = -4;
 
         debug(le, "Weakness Modifier: " + weaknessModifier);
 
-        baseDamage = tempDamage + weaknessModifier - strengthModifier;
+        baseDamage = tempDamage + weaknessModifier * weaknessLevel - strengthModifier * strengthLevel;
         debug(le, "Base tool damage: " + baseDamage);
     }
 
@@ -185,6 +192,11 @@ public class OCMEntityDamageByEntityEvent extends Event implements Cancellable {
     public int getStrengthLevel() {
         return strengthLevel;
     }
+
+    public int getWeaknessLevel() {
+        return weaknessLevel;
+    }
+
 
     public double getWeaknessModifier() {
         return weaknessModifier;
