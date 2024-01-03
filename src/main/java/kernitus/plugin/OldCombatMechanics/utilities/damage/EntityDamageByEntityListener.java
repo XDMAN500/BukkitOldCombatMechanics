@@ -87,7 +87,7 @@ public class EntityDamageByEntityListener extends Module {
             debug("Crit * " + e.getCriticalMultiplier() + " + " + e.getCriticalAddend(), damager);
         }
 
-        final double lastDamage = newDamage;
+        final double lastDamage = Math.max(newDamage, 0);
 
         // Overdamage due to immunity
         if (e.wasInvulnerabilityOverdamage() && damagee instanceof LivingEntity) {
